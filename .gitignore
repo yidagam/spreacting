@@ -8,6 +8,8 @@ build/
 # !**/src/main/**/build/ #!가 붙은 경로는 "반드시 커밋할 것"이라는 뜻
 # !**/src/test/**/build/
 
+src/main/resources/static
+
 ### STS ###
 .apt_generated
 .classpath
