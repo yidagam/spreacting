@@ -16,7 +16,7 @@ public class MusicController {
         this.musicMapper = musicMapper;
     }
 
-    	@PostMapping("/music")
+    	@PostMapping("/musicform")
 	public void music(@RequestBody Music music) {
 		// System.out.println(">>> " + music);
 		insertData(music);

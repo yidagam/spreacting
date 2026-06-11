@@ -20,7 +20,7 @@ export default function MusicForm() {
 
     try {
       let res = await axios({
-        method: "get", // 데이터 요청이므로 get 사용 (맞나?)
+        method: "get", // 데이터 요청이므로 get 사용
         url: url + value, // oEmbed링크 뒤에 사용자가 입력한 url입력
         responseType: "json", // default
 
@@ -65,7 +65,7 @@ export default function MusicForm() {
       // eslint-disable-next-line no-unused-vars
       let res = await axios({
         method: "Post",
-        url: "http://localhost:8080/music",
+        url: "http://localhost:8080/musicform",
         data: musicData,
       });
       // console.log(res); //이걸 주석처리하면 상단 eslint~ 주석을 반드시 설정해야함
