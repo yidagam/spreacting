@@ -41,8 +41,8 @@ export default function MusicForm() {
       musicData.thumbnail = res.data.thumbnail_url;
       musicData.iframe = res.data.html;
 
-      console.log(res);
-      console.log(musicData);
+      // console.log(res);
+      // console.log(musicData);
     } catch (err) {
       console.log(err);
       console.log(musicData);
@@ -61,12 +61,14 @@ export default function MusicForm() {
     //자바 함수 실행시키기 (자바: 전달 받은 값을 db에 저장)
     try {
       // console.log("sendToOracle2");
+
+      // eslint-disable-next-line no-unused-vars
       let res = await axios({
         method: "Post",
         url: "http://localhost:8080/music",
         data: musicData,
       });
-      console.log(res);
+      // console.log(res); //이걸 주석처리하면 상단 eslint~ 주석을 반드시 설정해야함
       setValue(""); //버튼 누르고 난 뒤 폼 입력창 초기화
     } catch (err) {
       console.log(err);

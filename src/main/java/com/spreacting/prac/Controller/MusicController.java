@@ -18,9 +18,9 @@ public class MusicController {
 
     	@PostMapping("/music")
 	public void music(@RequestBody Music music) {
-		System.out.println("통신 성공");
-		System.out.println(">>> " + music);
+		// System.out.println(">>> " + music);
 		insertData(music);
+		System.out.println("데이터 적재 성공");
 		// return "music";
 	}
 
