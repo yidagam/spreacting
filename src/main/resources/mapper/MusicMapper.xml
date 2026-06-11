@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spreacting.prac.mapper.MusicMapper">
+
+    <resultMap id="MusicResult" type="com.spreacting.prac.model.Music">
+        <result column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="videoId" property="videoId"/>
+        <result column="title" property="title"/>
+        <result column="author" property="author"/>
+        <result column="playTimes" property="playTimes"/>
+        <result column="votes" property="votes"/>
+        <result column="created_at" property="created_at"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="iframe" property="iframe"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="MusicResult">
+        SELECT * FROM music
+    </select>
+
+    <select id="selectById" resultMap="MusicResult">
+        SELECT * FROM music WHERE id=#{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO music(url, video_id, title, author, thumbnail, iframe) 
+        VALUES(#{music.url}, #{music.videoId}, #{music.title}, #{music.author}, #{music.thumbnail}, #{music.iframe})
+    </insert>
+
+</mapper>
