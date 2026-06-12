@@ -31,7 +31,7 @@
         VALUES(#{music.url}, #{music.videoId}, #{music.title}, #{music.author}, #{music.duration}, #{music.thumbnail}, #{music.iframe})
     </insert>
 
-    <update id="updateVotes">
+    <update id="updateByVideoId">
         UPDATE music 
         SET votes = #{music.votes}
         WHERE videoId = #{music.videoId}

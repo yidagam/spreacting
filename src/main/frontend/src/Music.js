@@ -10,7 +10,7 @@ export default function Music({
   votes,
 }) {
   async function PlusVotes() {
-    var const_vote = votes + 1;
+    const const_vote = votes + 1;
 
     //MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
     // eslint-disable-next-line no-unused-vars

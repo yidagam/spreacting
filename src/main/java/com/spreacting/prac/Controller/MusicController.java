@@ -35,7 +35,7 @@ public class MusicController {
     }
 
     @PostMapping("/musicvotes")
-	public void musicVoteUpdate(@RequestBody String videoId, int votes) {
+	public void musicVoteUpdate(@RequestBody String videoId, Integer votes) {
 		musicMapper.updateByVideoId(videoId, votes);
 	}
 
