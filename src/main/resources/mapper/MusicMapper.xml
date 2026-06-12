@@ -10,9 +10,10 @@
         <result column="videoId" property="videoId"/>
         <result column="title" property="title"/>
         <result column="author" property="author"/>
-        <result column="playTimes" property="playTimes"/>
+        <result column="duration" property="duration"/>
+        <result column="play_times" property="playTimes"/>
         <result column="votes" property="votes"/>
-        <result column="created_at" property="created_at"/>
+        <result column="created_at" property="createdAt"/>
         <result column="thumbnail" property="thumbnail"/>
         <result column="iframe" property="iframe"/>
     </resultMap>
@@ -26,8 +27,14 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO music(url, video_id, title, author, thumbnail, iframe) 
-        VALUES(#{music.url}, #{music.videoId}, #{music.title}, #{music.author}, #{music.thumbnail}, #{music.iframe})
+        INSERT INTO music(url, video_id, title, author, duration, thumbnail, iframe) 
+        VALUES(#{music.url}, #{music.videoId}, #{music.title}, #{music.author}, #{music.duration}, #{music.thumbnail}, #{music.iframe})
     </insert>
+
+    <update id="updateVotes">
+        UPDATE music 
+        SET votes = #{music.votes}
+        WHERE videoId = #{music.videoId}
+    </update>
 
 </mapper>

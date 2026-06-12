@@ -1,9 +1,11 @@
 import { useState } from "react";
 import React from "react";
 import axios from "axios";
+import MusicFormConfirm from "./MusicFormConfirm";
 
 export default function MusicForm() {
   const [value, setValue] = useState("");
+  const [clicked, setClicked] = useState("");
 
   const handleInputChange = (e) => {
     setValue(e.target.value);
@@ -15,6 +17,7 @@ export default function MusicForm() {
     // title, author_name, thumbnail_url, html 을 받아온다.
 
     // console.log("getoEmbedData");
+    // console.log(value);
     const url = "https://www.youtube.com/oembed?url=";
     var musicData = {};
 
@@ -49,32 +52,32 @@ export default function MusicForm() {
 
       throw new Error(err);
     }
-
-    return musicData;
+    setClicked(musicData);
+    setValue("");
   } // getoEmbedData
 
-  async function sendToOracle() {
-    // console.log("sendToOracle");
-    var musicData = await getoEmbedData(value);
+  // async function sendToOracle() {
+  //   // console.log("sendToOracle");
+  //   var musicData = await getoEmbedData(value);
 
-    //폼에 입력한 내용을 인수로 받아서
-    //자바 함수 실행시키기 (자바: 전달 받은 값을 db에 저장)
-    try {
-      // console.log("sendToOracle2");
+  //   //폼에 입력한 내용을 인수로 받아서
+  //   //자바 함수 실행시키기 (자바: 전달 받은 값을 db에 저장)
+  //   try {
+  //     // console.log("sendToOracle2");
 
-      // eslint-disable-next-line no-unused-vars
-      let res = await axios({
-        method: "Post",
-        url: "http://localhost:8080/musicform",
-        data: musicData,
-      });
-      // console.log(res); //이걸 주석처리하면 상단 eslint~ 주석을 반드시 설정해야함
-      setValue(""); //버튼 누르고 난 뒤 폼 입력창 초기화
-    } catch (err) {
-      console.log(err);
-      throw new Error(err);
-    }
-  } // sendToOracle
+  //     // eslint-disable-next-line no-unused-vars
+  //     let res = await axios({
+  //       method: "Post",
+  //       url: "http://localhost:8080/musicform",
+  //       data: musicData,
+  //     });
+  //     // console.log(res); //이걸 주석처리하면 상단 eslint~ 주석을 반드시 설정해야함
+  //     setValue(""); //버튼 누르고 난 뒤 폼 입력창 초기화
+  //   } catch (err) {
+  //     console.log(err);
+  //     throw new Error(err);
+  //   }
+  // } // sendToOracle
 
   return (
     <div /*className="form"*/>
@@ -87,10 +90,16 @@ export default function MusicForm() {
       &nbsp;
       <button
         className="create-button"
-        onClick={sendToOracle} //폼에 작성한 내용이 함수를 거쳐 자바(db)로 전송
+        onClick={() => getoEmbedData(value)} //폼에 작성한 내용이 함수를 거쳐 자바(db)로 전송
       >
         추가
       </button>
+      {/* db에 추가할 건지 확인하는 코드 */}
+      {clicked && (
+        <div className="confirm-area" style={{ marginTop: "20px" }}>
+          <MusicFormConfirm data={clicked} />
+        </div>
+      )}
     </div>
   );
 }

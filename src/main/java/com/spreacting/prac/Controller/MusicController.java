@@ -1,5 +1,8 @@
 package com.spreacting.prac.Controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +23,20 @@ public class MusicController {
 	public void music(@RequestBody Music music) {
 		// System.out.println(">>> " + music);
 		insertData(music);
-		System.out.println("데이터 적재 성공");
+		// System.out.println("데이터 적재 성공");
 		// return "music";
+	}
+
+    @GetMapping("/musiclist")
+    public List<Music> music() {
+        var musics = musicMapper.selectAll();
+
+        return musics;
+    }
+
+    @PostMapping("/musicvotes")
+	public void musicVoteUpdate(@RequestBody String videoId, int votes) {
+		musicMapper.updateByVideoId(videoId, votes);
 	}
 
     public void insertData(Music music) {

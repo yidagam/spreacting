@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 
-export default function Music({ title, author, thumbnail, votes }) {
-  // 데이터가 배열 형태로 들어오므로 초기값을 빈 배열([])로 설정합니다.
-  const [musics, setMusics] = useState([]);
+export default function Music({
+  videoId,
+  thumbnail,
+  title,
+  author,
+  duration,
+  votes,
+}) {
+  async function PlusVotes() {
+    var const_vote = votes + 1;
 
-  useEffect(() => {
-    axios
-      .get("/music")
-      .then((response) => {
-        // 백엔드에서 받아온 배열 데이터를 상태에 저장합니다.
-        setMusics(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    //MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
+    // eslint-disable-next-line no-unused-vars
+    let res = await axios({
+      method: "Post",
+      url: "http://localhost:8080/musicvotes",
+      data: { videoId: videoId, votes: const_vote },
+    });
+  }
 
   return (
     <div>
-      <h2>뮤-직</h2>
-      <ul>
-        {musics.map((example, index) => (
-          <li key={index}>
-            {/* 오라클 테이블의 컬럼명이 대문자이므로 key값도 대문자로 접근해야 합니다. */}
-            이름: {example.name} / 이메일: {example.email}
-          </li>
-        ))}
-      </ul>
+      <img id="img" src={thumbnail} width="144" height="108" alt={title} />
+      <div>
+        제목: {title}
+        <br />
+        채널명: {author}
+        <br />
+        길이: {parseInt(duration / 60)}분 {duration % 60}초
+        <br />
+        추천수: <button onClick={PlusVotes}>{votes}</button>
+      </div>
     </div>
   );
 }
