@@ -10,15 +10,17 @@ export default function Music({
   votes,
 }) {
   async function PlusVotes() {
-    const const_vote = votes + 1;
+    // const const_vote = votes + 1;
 
     //MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
     // eslint-disable-next-line no-unused-vars
     let res = await axios({
       method: "Post",
       url: "http://localhost:8080/musicvotes",
-      data: { videoId: videoId, votes: const_vote },
+      data: { video_id: videoId },
     });
+
+    console.log(res);
   }
 
   return (
@@ -29,7 +31,7 @@ export default function Music({
         <br />
         채널명: {author}
         <br />
-        길이: {parseInt(duration / 60)}분 {duration % 60}초
+        길이: {parseInt(duration / 60)}분 {duration % 60}초 // {videoId}
         <br />
         추천수: <button onClick={PlusVotes}>{votes}</button>
       </div>

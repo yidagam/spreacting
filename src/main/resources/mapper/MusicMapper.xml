@@ -7,7 +7,7 @@
     <resultMap id="MusicResult" type="com.spreacting.prac.model.Music">
         <result column="id" property="id"/>
         <result column="url" property="url"/>
-        <result column="videoId" property="videoId"/>
+        <result column="video_id" property="videoId"/>
         <result column="title" property="title"/>
         <result column="author" property="author"/>
         <result column="duration" property="duration"/>
@@ -33,8 +33,8 @@
 
     <update id="updateByVideoId">
         UPDATE music 
-        SET votes = #{music.votes}
-        WHERE videoId = #{music.videoId}
+        SET votes = votes+1
+        WHERE video_id = #{videoId}
     </update>
 
 </mapper>

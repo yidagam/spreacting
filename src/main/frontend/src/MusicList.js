@@ -15,6 +15,8 @@ export default function MusicList() {
       .catch((error) => console.log(error));
   }, []);
 
+  console.log(musics);
+
   return (
     <div>
       <ul>

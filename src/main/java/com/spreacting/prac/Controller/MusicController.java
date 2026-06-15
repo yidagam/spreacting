@@ -1,6 +1,8 @@
 package com.spreacting.prac.Controller;
 
 import java.util.List;
+import java.util.Map;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +36,17 @@ public class MusicController {
         return musics;
     }
 
+    // @PostMapping("/musicvotes")
+	// public void musicVoteUpdate(@RequestBody String videoId) {
+	// 	musicMapper.updateByVideoId(videoId);
+	// }
+
     @PostMapping("/musicvotes")
-	public void musicVoteUpdate(@RequestBody String videoId, Integer votes) {
-		musicMapper.updateByVideoId(videoId, votes);
-	}
+    public void musicVoteUpdate(@RequestBody Map<String, String> requestBody) {
+        // 리액트에서 보낸 데이터의 key인 "video_id"로 값을 추출
+        String videoId = requestBody.get("video_id");
+        musicMapper.updateByVideoId(videoId);
+    }
 
     public void insertData(Music music) {
         musicMapper.insert(music);

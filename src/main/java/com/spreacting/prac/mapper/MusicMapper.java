@@ -19,6 +19,6 @@ public interface MusicMapper {
 
     void insert(@Param("music") Music music);
 
-    void updateByVideoId(@Param("videoId") String videoId, @Param("votes") Integer votes);
+    void updateByVideoId(@Param("videoId") String videoId);
 
 }
