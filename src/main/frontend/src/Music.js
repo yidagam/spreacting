@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
+// import MusicReload from "./MusicList";
 
 export default function Music({
   videoId,
@@ -9,9 +10,11 @@ export default function Music({
   duration,
   votes,
 }) {
+  const [voteDynamic, setVoteDynamic] = useState(votes);
+
   async function PlusVotes() {
     // const const_vote = votes + 1;
-
+    setVoteDynamic(voteDynamic + 1);
     //MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
     // eslint-disable-next-line no-unused-vars
     let res = await axios({
@@ -21,6 +24,8 @@ export default function Music({
     });
 
     console.log(res);
+    // window.location.reload(); // 화면이 깜빡이며 새로고침됨.
+    // MusicReload();
   }
 
   return (
@@ -31,9 +36,9 @@ export default function Music({
         <br />
         채널명: {author}
         <br />
-        길이: {parseInt(duration / 60)}분 {duration % 60}초 // {videoId}
+        길이: {parseInt(duration / 60)}분 {duration % 60}초
         <br />
-        추천수: <button onClick={PlusVotes}>{votes}</button>
+        추천수: <button onClick={() => PlusVotes()}>{voteDynamic}</button>
       </div>
     </div>
   );

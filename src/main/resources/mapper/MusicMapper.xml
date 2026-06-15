@@ -19,7 +19,7 @@
     </resultMap>
 
     <select id="selectAll" resultMap="MusicResult">
-        SELECT * FROM music
+        SELECT * FROM music ORDER BY votes DESC, created_at ASC
     </select>
 
     <select id="selectById" resultMap="MusicResult">
