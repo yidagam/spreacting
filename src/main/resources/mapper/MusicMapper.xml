@@ -12,6 +12,7 @@
         <result column="author" property="author"/>
         <result column="duration" property="duration"/>
         <result column="play_times" property="playTimes"/>
+        <result column="is_playing" property="isPlaying"/>
         <result column="votes" property="votes"/>
         <result column="created_at" property="createdAt"/>
         <result column="thumbnail" property="thumbnail"/>
@@ -19,7 +20,7 @@
     </resultMap>
 
     <select id="selectAll" resultMap="MusicResult">
-        SELECT * FROM music ORDER BY votes DESC, created_at ASC
+        SELECT * FROM music ORDER BY votes DESC, created_at ASC 
     </select>
 
     <select id="selectById" resultMap="MusicResult">
@@ -37,4 +38,15 @@
         WHERE video_id = #{videoId}
     </update>
 
+    <update id="updateIsPlaying">
+        UPDATE music 
+        SET is_playing = 1
+        WHERE video_id = #{videoId}
+    </update>
+
+    <delete id="delete">
+        Delete music 
+        WHERE video_id = #{videoId}        
+    </delete>
+    
 </mapper>

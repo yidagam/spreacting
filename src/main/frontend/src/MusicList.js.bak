@@ -1,0 +1,41 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Music from "./Music";
+
+export default function MusicList() {
+  const [musics, setMusics] = useState([]); // 배열로 전달되므로 배열로 저장
+
+  //백엔드와 통신하는 코드
+  useEffect(function MusicReload() {
+    axios
+      .get("/musiclist")
+      .then((response) => {
+        setMusics(response.data);
+      })
+      .catch((error) => console.log(error));
+
+    // // 오래된 순으로 정렬
+    // musics.sort(function (a, b) {
+    //   return b.createdAt - a.createdAt;
+    // });
+
+    // // 투표 순으로 정렬
+    // musics.sort(function (a, b) {
+    //   return b.votes - a.votes;
+    // });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // console.log(musics);
+
+  return (
+    <div>
+      <button onClick={() => window.location.reload()}>새로고침</button>
+      <ul>
+        {musics.map((music, index) => (
+          <Music key={music.videoId} {...music} />
+        ))}
+      </ul>
+    </div>
+  );
+}

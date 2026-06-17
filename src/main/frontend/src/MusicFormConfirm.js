@@ -71,6 +71,13 @@ export default function MusicFormConfirm({ data }) {
       <author>{data.author}</author>
       <duration>{duration}</duration>
 
+      {duration >= 600 ? (
+        <warn>
+          음원의 길이를 다시 한 번 확인해 주세요. : {parseInt(duration / 60)}분{" "}
+          {duration % 60}초
+        </warn>
+      ) : null}
+
       <button onClick={sendToOracle}>추가</button>
       <button onClick={deleteVideo}>취소</button>
     </div>

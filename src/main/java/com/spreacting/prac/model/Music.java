@@ -20,6 +20,7 @@ public class Music {
     private int duration;               // 길이
     private Integer playTimes;          // 재생횟수
     private Integer votes;              // 투표수
+    private Integer isPlaying;          // 재생 중인지 확인
     private LocalDateTime createdAt;    // DB에 추가한 시간
     private String thumbnail;           // 썸네일 이미지 주소
     private String iframe;              // html iframe 코드
@@ -40,6 +41,7 @@ CREATE TABLE MUSIC (
     duration	NUMBER DEFAULT 0,
 	play_times	NUMBER DEFAULT 0,
 	votes		NUMBER DEFAULT 0,
+	is_plaing	NUMBER DEFAULT 0,
 	
 	created_at	TIMESTAMP DEFAULT SYSTIMESTAMP,
     thumbnail    VARCHAR2(2000),

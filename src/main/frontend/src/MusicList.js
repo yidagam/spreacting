@@ -1,30 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Music from "./Music";
+import MusicPlayer from "./MusicPlayer";
 
-export default function MusicList() {
-  const [musics, setMusics] = useState([]); // 배열로 전달되므로 배열로 저장
+function MusicComponent() {
+  const [musics, setMusics] = useState([]);
 
-  useEffect(function MusicReload() {
-    //백엔드와 통신하는 코드
+  const loadMusicList = () => {
     axios
       .get("/musiclist")
       .then((response) => {
         setMusics(response.data);
       })
       .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    loadMusicList();
   }, []);
 
-  // console.log(musics);
+  // sse
+  useEffect(() => {
+    const eventSource = new EventSource("http://localhost:8080/sse/subscribe");
+
+    eventSource.addEventListener("connect", (event) => {
+      console.log("SSE 연결 상태: ", event.data);
+    });
+
+    eventSource.addEventListener("refresh", (event) => {
+      console.log("목록을 갱신합니다.");
+      loadMusicList();
+    });
+
+    eventSource.onerror = (error) => {
+      console.error("SSE 에러 발생:", error);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   return (
     <div>
-      <button onClick={() => window.location.reload()}>새로고침</button>
-      <ul>
-        {musics.map((music, index) => (
-          <Music key={music.videoId} {...music} />
-        ))}
-      </ul>
+      {musics.map((music, index) =>
+        index === 0 ? (
+          <MusicPlayer key={music.videoId} {...music} />
+        ) : (
+          <ul>
+            <Music key={music.videoId} {...music} />
+          </ul>
+        )
+      )}
     </div>
   );
 }
+
+export default MusicComponent;

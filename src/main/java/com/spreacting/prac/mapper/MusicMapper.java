@@ -15,10 +15,15 @@ public interface MusicMapper {
     List<Music> selectAll();
 
     //SELECT * FROM member WHERE id = #{id}
-    Music selectById(@Param("id") Long id);
+    Music selectById(@Param("videoId") String videoId);
 
     void insert(@Param("music") Music music);
 
     void updateByVideoId(@Param("videoId") String videoId);
+
+    void updateIsPlaying(@Param("videoId") String videoId);
+
+    void delete(@Param("videoId") String videoId);
+
 
 }
