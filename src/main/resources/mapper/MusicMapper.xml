@@ -23,8 +23,10 @@
         SELECT * FROM music ORDER BY is_playing DESC, votes DESC, created_at ASC 
     </select>
 
-    <select id="selectById" resultMap="MusicResult">
-        SELECT * FROM music WHERE id=#{id}
+    <select id="selectByVideoId" resultMap="MusicResult">
+        SELECT * 
+        FROM music 
+        WHERE video_id = #{videoId}
     </select>
 
     <insert id="insert">
@@ -50,9 +52,9 @@
     </delete>
     
     <insert id="insertMusicHistory">
-        INSERT INTO musichistory
+        INSERT INTO musichistory(url, video_id, title, author, duration, play_times, is_playing, votes, created_at, thumbnail, iframe)
         VALUES(
-                #{music.id}, #{music.url}, #{music.videoId}, 
+                #{music.url}, #{music.videoId}, 
                 #{music.title}, #{music.author}, #{music.duration},
                 #{music.playTimes}, #{music.isPlaying}, #{music.votes},
                 #{music.createdAt}, #{music.thumbnail}, #{music.iframe}

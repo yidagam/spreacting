@@ -27,7 +27,7 @@ public class MusicController {
 		// System.out.println(">>> " + music);
 
         // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
-        if(musicMapper.selectById(music.getVideoId()) != null){
+        if(musicMapper.selectByVideoId(music.getVideoId()) != null){
             insertData(music);
     		// System.out.println("데이터 적재 성공");
         }
@@ -77,7 +77,7 @@ public class MusicController {
         String videoId = requestBody.get("video_id");
 
         //백업
-        Music music = musicMapper.selectById(videoId);
+        Music music = musicMapper.selectByVideoId(videoId);
         musicMapper.insertMusicHistory(music);
 
         //삭제

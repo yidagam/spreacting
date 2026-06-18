@@ -15,7 +15,7 @@ public interface MusicMapper {
     List<Music> selectAll();
 
     //SELECT * FROM member WHERE id = #{id}
-    Music selectById(@Param("videoId") String videoId);
+    Music selectByVideoId(@Param("videoId") String videoId);
 
     void insert(@Param("music") Music music);
 
