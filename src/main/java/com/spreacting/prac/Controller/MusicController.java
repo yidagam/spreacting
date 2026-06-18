@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,6 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
 	}
 
-
     // db 리스트 조회
         @GetMapping("/musiclist")
     public List<Music> music() {
@@ -63,10 +63,24 @@ public class MusicController {
         musicMapper.insert(music);
     }
 
-    //데이터 삭제하는 함수
-        @PostMapping("/musicplayer")
+    // 플레이어에 감지된 music isPlaying=true 설정
+        @PostMapping("/musicplayer/open")
+    public void updateisPlayingData(@RequestBody Map<String, String> requestBody) {
+        String videoId = requestBody.get("video_id");
+        musicMapper.updateIsPlaying(videoId);
+        sseController.broadcastRefresh(); //DB갱신
+    }
+
+    // 데이터 백업/삭제하는 함수
+        @PostMapping("/musicplayer/close")
     public void deleteData(@RequestBody Map<String, String> requestBody) {
         String videoId = requestBody.get("video_id");
+
+        //백업
+        Music music = musicMapper.selectById(videoId);
+        musicMapper.insertMusicHistory(music);
+
+        //삭제
         musicMapper.delete(videoId);
         sseController.broadcastRefresh(); //DB갱신
     }

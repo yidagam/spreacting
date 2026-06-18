@@ -4,12 +4,23 @@ import axios from "axios";
 import YouTube from "react-youtube";
 
 export default function MusicPlayer({ videoId }) {
+  const playerOpened = async () => {
+    // 재생 중인 노래 isPlaying=true 설정
+    let res = await axios({
+      method: "Post",
+      url: "http://localhost:8080/musicplayer/open",
+      data: { video_id: videoId },
+    });
+
+    console.log(res);
+  };
+
   const playerClosed = async () => {
     // 다음노래 재생
 
     let res = await axios({
       method: "Post",
-      url: "http://localhost:8080/musicplayer",
+      url: "http://localhost:8080/musicplayer/close",
       data: { video_id: videoId },
     });
 
@@ -26,7 +37,12 @@ export default function MusicPlayer({ videoId }) {
 
   return (
     <div>
-      <YouTube videoId={videoId} opts={opts} onReady={} onEnd={playerClosed} />
+      <YouTube
+        videoId={videoId}
+        opts={opts}
+        onReady={playerOpened}
+        onEnd={playerClosed}
+      />
     </div>
   );
 }

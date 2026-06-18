@@ -25,5 +25,5 @@ public interface MusicMapper {
 
     void delete(@Param("videoId") String videoId);
 
-
+    void insertMusicHistory(@Param("music") Music music);
 }

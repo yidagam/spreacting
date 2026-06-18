@@ -20,7 +20,7 @@
     </resultMap>
 
     <select id="selectAll" resultMap="MusicResult">
-        SELECT * FROM music ORDER BY votes DESC, created_at ASC 
+        SELECT * FROM music ORDER BY is_playing DESC, votes DESC, created_at ASC 
     </select>
 
     <select id="selectById" resultMap="MusicResult">
@@ -46,7 +46,17 @@
 
     <delete id="delete">
         Delete music 
-        WHERE video_id = #{videoId}        
+        WHERE video_id = #{videoId}
     </delete>
     
+    <insert id="insertMusicHistory">
+        INSERT INTO musichistory
+        VALUES(
+                #{music.id}, #{music.url}, #{music.videoId}, 
+                #{music.title}, #{music.author}, #{music.duration},
+                #{music.playTimes}, #{music.isPlaying}, #{music.votes},
+                #{music.createdAt}, #{music.thumbnail}, #{music.iframe}
+            )
+    </insert>
+
 </mapper>
