@@ -2,36 +2,117 @@
 /* ****************************************************************************** */
 /* ** MusicCard 정의 ** */
 
-.music-card {
+music-card {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   gap: 20px; /* 이미지와 글씨 사이 간격 */
   padding: 12px;
   background: #c6cbdb; /* 컴포넌트 배경색 */
-  border-radius: 10px;
+  border-color: aquamarine;
+  border-width: 3px;
+  border-radius: 5px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #000;
+
+  width: 755px !important;
 }
 
-.title {
-  font-size: 20pt;
-  font-weight: bold;
+cd-wrapper {
+  flex: 1 0 auto;
+  position: relative;
+  width: 108px;
+  height: 108px;
+  flex-shrink: 0;
+}
+
+music-info {
+  flex: 2 0 auto;
+  flex-direction: column;
+  position: relative;
+  gap: 8px;
+
   display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+vote-button {
+  flex: 1 0 auto;
+  width: 108px;
+  height: 108px;
+  position: relative;
+}
+
+.vote-button {
+  width: 100%;
+  height: 100%;
+}
+
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* ** cd-wrapper ** */
+
+/* CD 중앙 도넛 구멍 착시 */
+cd-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: #c6cbdb; /* 카드 뒷배경색과 똑같이 맞춰 뚫린 효과 부여 */
+  border-radius: 50%;
+  z-index: 5;
+}
+
+#img {
+  width: 108px; /* 이미지 크기 변경함(144->108)*/
+  height: 108px; /* 100%; */
+  border-radius: 50%; /* 원형 */
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* PlayerCard 일 때만 영원히 회전 */
+.playingIMG {
+  animation: spinCD 10s linear infinite;
+}
+
+/* MusicCard 일 때는 회전 없음 고정 */
+.staticIMG {
+  animation: none;
+}
+
+@keyframes spinCD {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* ** music-info ** */
+.title {
+  font-size: 14pt;
+  font-weight: bold;
+
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
 }
 
 .author {
-  font-size: 16pt;
+  font-size: 13pt;
   display: flex;
-}
-
-.vote {
-  font-size: 16pt;
 }
 
 /* ****************************************************************************** */
 /* ****************************************************************************** */
 /* ** 재생 중인 MUSIC 애니메이션 추가 ** */
-.playing {
+music-card .playing {
   animation: ambientGlow 5s ease-in-out infinite alternate;
 }
 
@@ -48,54 +129,5 @@
   100% {
     box-shadow: 0 0 15px rgba(76, 110, 245, 0.1),
       0 0 30px rgba(76, 110, 245, 0.02);
-  }
-}
-
-/* ****************************************************************************** */
-/* ****************************************************************************** */
-/* ** 썸네일 이미지로 CD 만들기 ** */
-
-.cd-wrapper {
-  position: relative;
-  width: 108px;
-  height: 108px;
-  flex-shrink: 0;
-}
-
-/* CD 중앙 도넛 구멍 착시 */
-.cd-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  background: var(--bg-card); /* 카드 뒷배경색과 똑같이 맞춰 뚫린 효과 부여 */
-  border-radius: 50%;
-  border: 2px solid #000;
-  z-index: 5;
-}
-
-#IMG {
-  width: 108px; /* 이미지 크기 변경함(144->108)*/
-  height: 108px; /* 100%; */
-  border-radius: 50%; /* 원형 */
-  object-fit: cover;
-}
-
-/* PlayerCard 일 때만 영원히 회전 */
-.playingIMG {
-  animation: spinCD 10s linear infinite;
-}
-
-/* MusicCard 일 때는 회전 없음 고정 */
-.staticIMG {
-  animation: none;
-}
-
-@keyframes spinCD {
-  100% {
-    transform: rotate(360deg);
   }
 }

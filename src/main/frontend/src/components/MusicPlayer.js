@@ -6,7 +6,14 @@ import YouTube from "react-youtube";
 
 let globalIsActivated = false;
 
-export default function MusicPlayer({ videoId }) {
+export default function MusicPlayer({
+  videoId,
+  thumbnail,
+  title,
+  author,
+  duration,
+  votes,
+}) {
   //사용자 동작 감지
   const [isActivated, setIsActivated] = useState(false);
 
@@ -68,6 +75,23 @@ export default function MusicPlayer({ videoId }) {
         onReady={playerOpened}
         onEnd={playerClosed}
       />
+      <music-card className="playing">
+        <cd-wrapper>
+          <img
+            className="playingIMG"
+            id="img"
+            src={thumbnail}
+            width="144"
+            height="108"
+            alt={title}
+          />
+        </cd-wrapper>
+        <music-info>
+          <span className="title">{title}</span>
+          {/* <span className="author">{author}</span> */}
+          {parseInt(duration / 60)}:{duration % 60}
+        </music-info>
+      </music-card>
     </div>
   );
 }

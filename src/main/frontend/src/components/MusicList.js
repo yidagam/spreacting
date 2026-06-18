@@ -24,7 +24,7 @@ function MusicComponent() {
     const eventSource = new EventSource("http://localhost:8080/sse/subscribe");
 
     eventSource.addEventListener("connect", (event) => {
-      console.log("SSE 연결 상태: ", event.data);
+      console.log("SSE 연결 상태:", event.data);
     });
 
     eventSource.addEventListener("refresh", (event) => {

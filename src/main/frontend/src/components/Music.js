@@ -2,6 +2,7 @@ import React from "react";
 // import { useEffect, useState } from "react";
 import axios from "axios";
 // import MusicReload from "./MusicList";
+import "../style.css";
 
 export default function Music({
   videoId,
@@ -30,17 +31,28 @@ export default function Music({
   }
 
   return (
-    <div>
-      <img id="img" src={thumbnail} width="144" height="108" alt={title} />
-      <div>
-        제목: {title}
-        <br />
-        채널명: {author}
-        <br />
-        길이: {parseInt(duration / 60)}분 {duration % 60}초
-        <br />
-        추천수: <button onClick={() => PlusVotes()}>{votes}</button>
-      </div>
-    </div>
+    // eslint-disable-next-line react/style-prop-object
+    <music-card>
+      <cd-wrapper>
+        <img
+          className="staticIMG"
+          id="img"
+          src={thumbnail}
+          width="144"
+          height="108"
+          alt={title}
+        />
+      </cd-wrapper>
+      <music-info>
+        <span className="title">{title}</span>
+        {/* <span className="author">{author}</span> */}
+        {parseInt(duration / 60)}:{duration % 60}
+      </music-info>
+      <vote-button>
+        <button className="vote-button" onClick={() => PlusVotes()}>
+          {votes}
+        </button>
+      </vote-button>
+    </music-card>
   );
 }
