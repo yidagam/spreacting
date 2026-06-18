@@ -1,0 +1,101 @@
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* ** MusicCard 정의 ** */
+
+.music-card {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 이미지와 글씨 사이 간격 */
+  padding: 12px;
+  background: #c6cbdb; /* 컴포넌트 배경색 */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: bold;
+  display: flex;
+}
+
+.author {
+  font-size: 16pt;
+  display: flex;
+}
+
+.vote {
+  font-size: 16pt;
+}
+
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* ** 재생 중인 MUSIC 애니메이션 추가 ** */
+.playing {
+  animation: ambientGlow 5s ease-in-out infinite alternate;
+}
+
+/* 🌌 은은하게 호흡하듯 불빛이 번지는 Keyframe (보라~파랑 계열 믹스) */
+@keyframes ambientGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(76, 110, 245, 0.15),
+      0 0 40px rgba(76, 110, 245, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(76, 110, 245, 0.35),
+      0 0 70px rgba(103, 65, 217, 0.2); /* 중간에 은은하게 보라빛 추가 */
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(76, 110, 245, 0.1),
+      0 0 30px rgba(76, 110, 245, 0.02);
+  }
+}
+
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* ** 썸네일 이미지로 CD 만들기 ** */
+
+.cd-wrapper {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  flex-shrink: 0;
+}
+
+/* CD 중앙 도넛 구멍 착시 */
+.cd-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--bg-card); /* 카드 뒷배경색과 똑같이 맞춰 뚫린 효과 부여 */
+  border-radius: 50%;
+  border: 2px solid #000;
+  z-index: 5;
+}
+
+#IMG {
+  width: 108px; /* 이미지 크기 변경함(144->108)*/
+  height: 108px; /* 100%; */
+  border-radius: 50%; /* 원형 */
+  object-fit: cover;
+}
+
+/* PlayerCard 일 때만 영원히 회전 */
+.playingIMG {
+  animation: spinCD 10s linear infinite;
+}
+
+/* MusicCard 일 때는 회전 없음 고정 */
+.staticIMG {
+  animation: none;
+}
+
+@keyframes spinCD {
+  100% {
+    transform: rotate(360deg);
+  }
+}
