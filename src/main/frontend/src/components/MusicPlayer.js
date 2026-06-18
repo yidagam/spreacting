@@ -4,14 +4,19 @@ import { useEffect, useState } from "react";
 
 import YouTube from "react-youtube";
 
+let globalIsActivated = false;
+
 export default function MusicPlayer({ videoId }) {
   //사용자 동작 감지
   const [isActivated, setIsActivated] = useState(false);
 
   //사용자 동작 감지 시에만 컴포넌트가 작동하도록 함
   useEffect(() => {
+    if (globalIsActivated) return;
+
     const handleUserGesture = () => {
       setIsActivated(true);
+      globalIsActivated = true;
       window.removeEventListener("click", handleUserGesture);
     };
     window.addEventListener("click", handleUserGesture);
