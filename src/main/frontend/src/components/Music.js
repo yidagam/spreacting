@@ -45,7 +45,7 @@ export default function Music({
       </cd-wrapper>
       <music-info>
         <span className="title">{title}</span>
-        {/* <span className="author">{author}</span> */}
+        <span className="author">―― {author}</span>
         {parseInt(duration / 60)}:{duration % 60}
       </music-info>
       <vote-button>

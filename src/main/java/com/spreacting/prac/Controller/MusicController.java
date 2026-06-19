@@ -21,21 +21,42 @@ public class MusicController {
     private final SseController sseController;
 
 
+
     // db에 음원(video) 추가하는 함수
-    	@PostMapping("/musicform")
+    @PostMapping("/musicform")
 	public void music(@RequestBody Music music) {
 		// System.out.println(">>> " + music);
 
         // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
-        if(musicMapper.selectByVideoId(music.getVideoId()) != null){
+        try{
             insertData(music);
     		// System.out.println("데이터 적재 성공");
         }
-        else{
+        catch(Error e){
+            // System.out.println("중복 데이터가 있습니다");
             musicMapper.updateByVideoId(music.getVideoId());
+        } finally {
+            sseController.broadcastRefresh(); //DB갱신
         }
-        sseController.broadcastRefresh(); //DB갱신
 	}
+
+    // // db에 음원(video) 추가하는 함수
+    // 	@PostMapping("/musicform")
+	// public void music(@RequestBody Music music) {
+	// 	// System.out.println(">>> " + music);
+
+    //     // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
+    //     Music existingMusic = musicMapper.selectByVideoId(music.getVideoId());
+    //     if(existingMusic == null || existingMusic.getVideoId() != music.getVideoId()){
+    //         insertData(music);
+    // 		// System.out.println("데이터 적재 성공");
+    //     }
+    //     else{
+    //         // System.out.println("중복 데이터가 있습니다");
+    //         musicMapper.updateByVideoId(music.getVideoId());
+    //     }
+    //     sseController.broadcastRefresh(); //DB갱신
+	// }
 
     // db 리스트 조회
         @GetMapping("/musiclist")

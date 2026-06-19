@@ -2,6 +2,7 @@ import { useState } from "react";
 import React from "react";
 import axios from "axios";
 import MusicFormConfirm from "./MusicFormConfirm";
+import "../style.css";
 
 export default function MusicForm() {
   const [value, setValue] = useState("");
@@ -89,7 +90,7 @@ export default function MusicForm() {
       />
       &nbsp;
       <button
-        className="create-button"
+        className="plus-button"
         onClick={() => getoEmbedData(value)} //폼에 작성한 내용이 함수를 거쳐 자바(db)로 전송
       >
         추가

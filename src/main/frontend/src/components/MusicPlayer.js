@@ -62,9 +62,29 @@ export default function MusicPlayer({
     },
   };
 
-  // 사용자 동작이 감지되지 않았을 때에는 아무것도 리턴하지 않음
-  if (!isActivated) {
-    return "";
+  // 사용자 동작이 감지되지 않았을 때에는 유튜브 태그(음원재생기능) 리턴하지 않음
+  if (!globalIsActivated) {
+    return (
+      <div>
+        <music-card className="playing">
+          <cd-wrapper>
+            <img
+              className="playingIMG"
+              id="img"
+              src={thumbnail}
+              width="144"
+              height="108"
+              alt={title}
+            />
+          </cd-wrapper>
+          <music-info>
+            <span className="title">{title}</span>
+            <span className="author">―― {author}</span>
+            {parseInt(duration / 60)}:{duration % 60}
+          </music-info>
+        </music-card>
+      </div>
+    );
   }
 
   return (
@@ -75,7 +95,10 @@ export default function MusicPlayer({
         onReady={playerOpened}
         onEnd={playerClosed}
       />
-      <music-card className="playing">
+      <music-card
+        className="playing"
+        style={{ backgroundColor: "rgb(233 233 233)" }}
+      >
         <cd-wrapper>
           <img
             className="playingIMG"
@@ -88,7 +111,7 @@ export default function MusicPlayer({
         </cd-wrapper>
         <music-info>
           <span className="title">{title}</span>
-          {/* <span className="author">{author}</span> */}
+          <span className="author">―― {author}</span>
           {parseInt(duration / 60)}:{duration % 60}
         </music-info>
       </music-card>
