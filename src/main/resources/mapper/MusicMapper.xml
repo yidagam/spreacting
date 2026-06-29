@@ -11,7 +11,6 @@
         <result column="title" property="title"/>
         <result column="author" property="author"/>
         <result column="duration" property="duration"/>
-        <result column="play_times" property="playTimes"/>
         <result column="is_playing" property="isPlaying"/>
         <result column="votes" property="votes"/>
         <result column="created_at" property="createdAt"/>
@@ -19,45 +18,72 @@
         <result column="iframe" property="iframe"/>
     </resultMap>
 
+
+<!-- ********** DB 데이터 조회 쿼리 ********** -->
+
+    <!-- 플레이리스트(최상위 칼럼:IS_PLAING) => 현재 재생중인 노래 고정 -->
     <select id="selectAll" resultMap="MusicResult">
         SELECT * FROM music ORDER BY is_playing DESC, votes DESC, created_at ASC 
     </select>
 
+    <!-- 플레이리스트 => 현재 재생중인 노래 미고정 -->
+    <select id="selectAll2" resultMap="MusicResult">
+        SELECT * FROM music ORDER BY votes DESC, created_at ASC 
+    </select>
+
+    <!-- ID로 조회 -->
     <select id="selectByVideoId" resultMap="MusicResult">
         SELECT * 
         FROM music 
         WHERE video_id = #{videoId}
     </select>
 
+
+<!-- ********** DB 업데이트 쿼리 ********** -->
+
+    <!-- DB에 데이터 추가 -->
     <insert id="insert">
         INSERT INTO music(url, video_id, title, author, duration, thumbnail, iframe) 
         VALUES(#{music.url}, #{music.videoId}, #{music.title}, #{music.author}, #{music.duration}, #{music.thumbnail}, #{music.iframe})
     </insert>
 
+    <!-- 투표수 증가 -->
     <update id="updateByVideoId">
         UPDATE music 
         SET votes = votes+1
         WHERE video_id = #{videoId}
     </update>
 
+    <!-- 현재 재생 중 -->
     <update id="updateIsPlaying">
         UPDATE music 
         SET is_playing = 1
         WHERE video_id = #{videoId}
     </update>
 
+    <!-- 재생이 끝난 데이터는 Queue에서 삭제 -->
     <delete id="delete">
         Delete music 
         WHERE video_id = #{videoId}
     </delete>
     
+
+<!-- ********** DB 백업 쿼리 ********** -->
+
+    <!-- 반복재생 시 투표수와 타임스탬프를 초기화하는 쿼리 -->
+    <update id="clearVoteTimestamp">
+        UPDATE music 
+        SET votes = 0, created_at = SYSTIMESTAMP
+        WHERE video_id = #{videoId}
+    </update>
+
+    <!-- 플레이리스트Queue에서 데이터를 삭제한 후, history 에 추가하는 쿼리
+         어떤 음악을 들었는지, 총 몇 번 투표 받았는지 통계내는 데에 사용할 수 있음 -->
     <insert id="insertMusicHistory">
-        INSERT INTO musichistory(url, video_id, title, author, duration, play_times, is_playing, votes, created_at, thumbnail, iframe)
+        INSERT INTO musichistory(video_id, title, author, duration, votes, created_at)
         VALUES(
-                #{music.url}, #{music.videoId}, 
-                #{music.title}, #{music.author}, #{music.duration},
-                #{music.playTimes}, #{music.isPlaying}, #{music.votes},
-                #{music.createdAt}, #{music.thumbnail}, #{music.iframe}
+                #{music.videoId}, #{music.title}, #{music.author}, 
+                #{music.duration}, #{music.votes}, #{music.createdAt}
             )
     </insert>
 

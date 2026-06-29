@@ -2,13 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Music from "./Music";
 import MusicPlayer from "./MusicPlayer";
+import { getGAC } from "./Settings";
 
 function MusicComponent() {
   const [musics, setMusics] = useState([]);
 
   const loadMusicList = () => {
+    let url = "/musiclist";
+    if (getGAC()) {
+      // true일 경우 이미 재생 중인 음악도 변경 가능해짐
+      url = "/musiclist/democ";
+    }
+
     axios
-      .get("/musiclist")
+      .get(url)
       .then((response) => {
         setMusics(response.data);
       })

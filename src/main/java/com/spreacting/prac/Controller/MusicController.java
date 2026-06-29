@@ -19,44 +19,8 @@ public class MusicController {
 
 	private final MusicMapper musicMapper;
     private final SseController sseController;
-
-
-
-    // db에 음원(video) 추가하는 함수
-    @PostMapping("/musicform")
-	public void music(@RequestBody Music music) {
-		// System.out.println(">>> " + music);
-
-        // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
-        try{
-            insertData(music);
-    		// System.out.println("데이터 적재 성공");
-        }
-        catch(Error e){
-            // System.out.println("중복 데이터가 있습니다");
-            musicMapper.updateByVideoId(music.getVideoId());
-        } finally {
-            sseController.broadcastRefresh(); //DB갱신
-        }
-	}
-
-    // // db에 음원(video) 추가하는 함수
-    // 	@PostMapping("/musicform")
-	// public void music(@RequestBody Music music) {
-	// 	// System.out.println(">>> " + music);
-
-    //     // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
-    //     Music existingMusic = musicMapper.selectByVideoId(music.getVideoId());
-    //     if(existingMusic == null || existingMusic.getVideoId() != music.getVideoId()){
-    //         insertData(music);
-    // 		// System.out.println("데이터 적재 성공");
-    //     }
-    //     else{
-    //         // System.out.println("중복 데이터가 있습니다");
-    //         musicMapper.updateByVideoId(music.getVideoId());
-    //     }
-    //     sseController.broadcastRefresh(); //DB갱신
-	// }
+ 
+/* ************************************************************************* */
 
     // db 리스트 조회
         @GetMapping("/musiclist")
@@ -65,11 +29,16 @@ public class MusicController {
 
         return musics;
     }
+    
+    // db 리스트 조회
+    @GetMapping("/musiclist/democ")
+    public List<Music> music2() {
+        var musics = musicMapper.selectAll2();
 
-    // @PostMapping("/musicvotes")
-	// public void musicVoteUpdate(@RequestBody String videoId) {
-	// 	musicMapper.updateByVideoId(videoId);
-	// }
+        return musics;
+    }
+
+/* ********** DB 업데이트 쿼리 ********** */
 
     // vote업데이트하는 기능
         @PostMapping("/musicvotes")
@@ -80,10 +49,6 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
     }
 
-    public void insertData(Music music) {
-        musicMapper.insert(music);
-    }
-
     // 플레이어에 감지된 music isPlaying=true 설정
         @PostMapping("/musicplayer/open")
     public void updateisPlayingData(@RequestBody Map<String, String> requestBody) {
@@ -92,6 +57,45 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
     }
 
+    // db에 음원(video) 추가하는 함수
+    @PostMapping("/musicform")
+	public void music(@RequestBody Music music) {
+		// System.out.println(">>> " + music);
+
+        // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
+        try{
+            musicMapper.insert(music);
+    		// System.out.println("데이터 적재 성공");
+        }
+        catch(Error e){
+            System.out.println(e);
+            // System.out.println("중복 데이터가 있습니다");
+            musicMapper.updateByVideoId(music.getVideoId());
+        } finally {
+            sseController.broadcastRefresh(); //DB갱신
+        }
+	}
+
+/*
+    // db에 음원(video) 추가하는 함수
+    	@PostMapping("/musicform")
+	public void music(@RequestBody Music music) {
+		// System.out.println(">>> " + music);
+
+        // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
+        Music existingMusic = musicMapper.selectByVideoId(music.getVideoId());
+        if(existingMusic == null || existingMusic.getVideoId() != music.getVideoId()){
+            insertData(music);
+    		// System.out.println("데이터 적재 성공");
+        }
+        else{
+            // System.out.println("중복 데이터가 있습니다");
+            musicMapper.updateByVideoId(music.getVideoId());
+        }
+        sseController.broadcastRefresh(); //DB갱신
+	} */
+
+/* ************************************************************************* */
     // 데이터 백업/삭제하는 함수
         @PostMapping("/musicplayer/close")
     public void deleteData(@RequestBody Map<String, String> requestBody) {
@@ -106,4 +110,19 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
     }
 
+    // 이거 수정 필요함
+    @PostMapping("/musicplayer/repeat")
+    public void repeatData(@RequestBody Map<String, String> requestBody) {
+        String videoId = requestBody.get("video_id");
+
+        //백업
+        Music music = musicMapper.selectByVideoId(videoId);
+        musicMapper.insertMusicHistory(music);
+
+        // vote 초기화
+        // 시간대 초기화
+        musicMapper.clearVoteTimestamp(videoId);
+
+        sseController.broadcastRefresh(); //DB갱신
+    }
 }

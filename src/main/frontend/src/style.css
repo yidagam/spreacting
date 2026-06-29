@@ -73,7 +73,7 @@ vote-button {
 /* ** cd-wrapper ** */
 
 /* CD 중앙 도넛 구멍 착시 */
-/* cd-wrapper::after {
+cd-wrapper::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -82,9 +82,9 @@ vote-button {
   width: 20px;
   height: 20px;
   background: #c6cbdb; /* 카드 뒷배경색과 똑같이 맞춰 뚫린 효과 부여 */
-/* border-radius: 50%;
-  z-index: 5;
-} */
+  /* border-radius: 50%;
+  z-index: 5; */
+}
 
 #img {
   width: 108px; /* 이미지 크기 변경함(144->108)*/
@@ -92,6 +92,7 @@ vote-button {
   border-radius: 50%; /* 원형 */
   object-fit: cover;
   z-index: 1;
+  border: 1px solid black;
 }
 
 /* PlayerCard 일 때만 영원히 회전 */
@@ -133,25 +134,6 @@ vote-button {
 /* ****************************************************************************** */
 /* ****************************************************************************** */
 /* ** 재생 중인 MUSIC 애니메이션 추가 ** */
-/* music-card .playing {
-  animation: ambientGlow 5s ease-in-out infinite alternate;
-} */
-
-/* 🌌 은은하게 호흡하듯 불빛이 번지는 Keyframe (보라~파랑 계열 믹스) */
-/* @keyframes ambientGlow {
-  0% {
-    box-shadow: 0 0 20px rgba(76, 110, 245, 0.15),
-      0 0 40px rgba(76, 110, 245, 0.05);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(76, 110, 245, 0.35),
-      0 0 70px rgba(103, 65, 217, 0.2); /* 중간에 은은하게 보라빛 추가 */
-/* }
-  100% {
-    box-shadow: 0 0 15px rgba(76, 110, 245, 0.1),
-      0 0 30px rgba(76, 110, 245, 0.02);
-  }
-} */
 
 .video-container {
   width: 200px;
@@ -167,4 +149,41 @@ vote-button {
   left: -5%;
   width: 110% !important;
   height: calc(100% + 100px) !important;
+}
+
+/* ****************************************************************************** */
+/* ****************************************************************************** */
+/* 체크박스처럼 생긴 버튼 */
+
+#toggle {
+  cursor: pointer;
+  padding: 0;
+  width: 12.5px;
+  height: 12.5px;
+  border-width: 1px;
+  border-radius: 2.5px;
+
+  background-color: white;
+  border: 1px solid #767676;
+}
+
+#toggled {
+  cursor: pointer;
+  padding: 0;
+  width: 12.5px;
+  height: 12.5px;
+  border-width: 1px;
+  border-radius: 2.5px;
+
+  background-color: #0075ff;
+  border: 1px solid #0075ff;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
 }

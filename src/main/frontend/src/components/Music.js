@@ -17,7 +17,7 @@ export default function Music({
   async function PlusVotes() {
     // const const_vote = votes + 1;
     // setVoteDynamic(voteDynamic + 1);
-    //MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
+    // 이거 수정할 거면 MusicController.java랑 같이 보면서 수정해야됨 (특히 parameter...)
     // eslint-disable-next-line no-unused-vars
     let res = await axios({
       method: "Post",

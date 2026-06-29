@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import YouTube from "react-youtube";
+import { getGIP } from "./Settings";
 
 let globalIsActivated = false;
 
@@ -12,9 +13,9 @@ export default function MusicPlayer({
   title,
   author,
   duration,
-  votes,
 }) {
   //사용자 동작 감지
+  // eslint-disable-next-line no-unused-vars
   const [isActivated, setIsActivated] = useState(false);
 
   //사용자 동작 감지 시에만 컴포넌트가 작동하도록 함
@@ -44,10 +45,15 @@ export default function MusicPlayer({
 
   const playerClosed = async () => {
     // 다음노래 재생
+    let url = "/close";
+    if (getGIP()) {
+      url = "/repeat";
+    }
+
     // eslint-disable-next-line no-unused-vars
     let res = await axios({
       method: "Post",
-      url: "http://localhost:8080/musicplayer/close",
+      url: "http://localhost:8080/musicplayer" + url,
       data: { video_id: videoId },
     });
 
@@ -69,7 +75,7 @@ export default function MusicPlayer({
         <music-card className="playing">
           <cd-wrapper>
             <img
-              className="playingIMG"
+              className="staticIMG"
               id="img"
               src={thumbnail}
               width="144"

@@ -13,17 +13,18 @@ public interface MusicMapper {
     
     //SELECT * FROM member
     List<Music> selectAll();
-
+    List<Music> selectAll2();
     //SELECT * FROM member WHERE id = #{id}
     Music selectByVideoId(@Param("videoId") String videoId);
 
     void insert(@Param("music") Music music);
-
-    void updateByVideoId(@Param("videoId") String videoId);
-
-    void updateIsPlaying(@Param("videoId") String videoId);
-
     void delete(@Param("videoId") String videoId);
 
+    // 데이터 업데이트
+    void updateByVideoId(@Param("videoId") String videoId);
+    void updateIsPlaying(@Param("videoId") String videoId);
+
+    // 백업&데이터 일부 초기화 
     void insertMusicHistory(@Param("music") Music music);
+    void clearVoteTimestamp(@Param("videoId") String videoId);
 }
