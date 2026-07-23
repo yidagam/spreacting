@@ -2,29 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Music from "./Music";
 import MusicPlayer from "./MusicPlayer";
-import { getGAC } from "./Settings";
+import { useACMStore, useMLRStore } from "../store/settings.js";
 
 function MusicComponent() {
-  const [musics, setMusics] = useState([]);
+  const [musics, setMusics] = useState([]); //musics와 musics에 값을 할당하는 setMusics
+  const { isACM } = useACMStore();
+  const { isMLR } = useMLRStore();
 
-  const loadMusicList = () => {
-    let url = "/musiclist";
-    if (getGAC()) {
-      // true일 경우 이미 재생 중인 음악도 변경 가능해짐
-      url = "/musiclist/democ";
-    }
-
+  const loadMusicList = (url) => {
     axios
       .get(url)
       .then((response) => {
-        setMusics(response.data);
+        setMusics(response.data); //url로 가져오는 데이터를 setMusics에 넣어서 작동
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    loadMusicList();
-  }, []);
+    const url = isACM ? "/musiclist/democ" : "/musiclist";
+    loadMusicList(url); //url을 매개로 받아서 전달
+  }, [isACM, isMLR]); //둘중 하나라도 바뀌면 재실행(isMLR=음악 삭제 시에 변경됨)
 
   // sse
   useEffect(() => {
@@ -36,7 +33,8 @@ function MusicComponent() {
 
     eventSource.addEventListener("refresh", (event) => {
       console.log("목록을 갱신합니다.");
-      loadMusicList();
+      const url = isACM ? "/musiclist/democ" : "/musiclist";
+      loadMusicList(url);
     });
 
     eventSource.onerror = (error) => {
@@ -47,7 +45,8 @@ function MusicComponent() {
     return () => {
       eventSource.close();
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isACM]);
 
   return (
     <div>

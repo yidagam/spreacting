@@ -73,7 +73,7 @@ vote-button {
 /* ** cd-wrapper ** */
 
 /* CD 중앙 도넛 구멍 착시 */
-cd-wrapper::after {
+/* cd-wrapper::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -82,9 +82,9 @@ cd-wrapper::after {
   width: 20px;
   height: 20px;
   background: #c6cbdb; /* 카드 뒷배경색과 똑같이 맞춰 뚫린 효과 부여 */
-  /* border-radius: 50%;
-  z-index: 5; */
-}
+/* border-radius: 50%;
+  z-index: 5; 
+} */
 
 #img {
   width: 108px; /* 이미지 크기 변경함(144->108)*/
@@ -165,6 +165,14 @@ cd-wrapper::after {
 
   background-color: white;
   border: 1px solid #767676;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
 }
 
 #toggled {
@@ -177,12 +185,12 @@ cd-wrapper::after {
 
   background-color: #0075ff;
   border: 1px solid #0075ff;
+  color: white;
 
   display: inline-flex;
   justify-content: center;
   align-items: center;
 
-  color: white;
   font-size: 9px;
   font-weight: 900;
   line-height: 1;

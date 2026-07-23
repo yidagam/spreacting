@@ -54,11 +54,11 @@
         WHERE video_id = #{videoId}
     </update>
 
-    <!-- 현재 재생 중 -->
+    <!-- 현재 재생 중 // video_id = #{videoId} 일 때에는 1을, 아닐 때에는 0을 입력시켜줌 
+        => 현재 재생중인 음악만 is_playing=1 로 입력된다 -->
     <update id="updateIsPlaying">
         UPDATE music 
-        SET is_playing = 1
-        WHERE video_id = #{videoId}
+        SET is_playing = DECODE(video_id, #{videoId}, 1, 0)
     </update>
 
     <!-- 재생이 끝난 데이터는 Queue에서 삭제 -->

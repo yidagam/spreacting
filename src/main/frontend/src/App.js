@@ -1,33 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
-function App() {
-  // 데이터가 배열 형태로 들어오므로 초기값을 빈 배열([])로 설정합니다.
-  const [examples, setExamples] = useState([]);
+import MusicList from "./components/MusicList";
+import MusicForm from "./components/MusicForm";
+import Settings from "./components/Settings";
 
-  useEffect(() => {
-    axios
-      .get("/member")
-      .then((response) => {
-        // 백엔드에서 받아온 배열 데이터를 상태에 저장합니다.
-        setExamples(response.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
+export default function App() {
   return (
-    <div>
-      <h2>백엔드 오라클 DB에서 가져온 회원 목록</h2>
-      <ul>
-        {examples.map((example, index) => (
-          <li key={index}>
-            {/* 오라클 테이블의 컬럼명이 대문자이므로 key값도 대문자로 접근해야 합니다. */}
-            이름: {example.name} / 이메일: {example.email}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Settings />
+      <MusicForm />
+      <MusicList />
+    </>
   );
 }
-
-export default App;

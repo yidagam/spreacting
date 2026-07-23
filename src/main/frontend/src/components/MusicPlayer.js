@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import YouTube from "react-youtube";
-import { getGIP } from "./Settings";
+import { useIMPStore, useMLRStore } from "../store/settings.js";
 
 let globalIsActivated = false;
 
@@ -17,6 +17,8 @@ export default function MusicPlayer({
   //사용자 동작 감지
   // eslint-disable-next-line no-unused-vars
   const [isActivated, setIsActivated] = useState(false);
+  const { isIMP } = useIMPStore();
+  const { toggleIsMLR } = useMLRStore();
 
   //사용자 동작 감지 시에만 컴포넌트가 작동하도록 함
   useEffect(() => {
@@ -40,15 +42,13 @@ export default function MusicPlayer({
       data: { video_id: videoId },
     });
 
-    // console.log(res);
+    console.log("playerOpened");
+    console.log(res);
   };
 
   const playerClosed = async () => {
     // 다음노래 재생
-    let url = "/close";
-    if (getGIP()) {
-      url = "/repeat";
-    }
+    let url = isIMP ? "/repeat" : "/close";
 
     // eslint-disable-next-line no-unused-vars
     let res = await axios({
@@ -57,7 +57,9 @@ export default function MusicPlayer({
       data: { video_id: videoId },
     });
 
-    // console.log(res);
+    console.log("playerClosed");
+    console.log(res);
+    toggleIsMLR(); //musicList 리-렌더링
   };
 
   const opts = {

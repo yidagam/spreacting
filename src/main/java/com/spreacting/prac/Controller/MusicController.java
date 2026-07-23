@@ -95,8 +95,21 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
 	} */
 
-/* ************************************************************************* */
-    // 데이터 백업/삭제하는 함수
+/* ********** DB 조작 쿼리(백업, 삭제) ********** */
+
+    // 음악 삭제
+    @PostMapping("/deletemusic")
+    public void deletemusic(@RequestBody Map<String, String> requestBody) {
+        String videoId = requestBody.get("video_id");
+
+        //삭제
+        musicMapper.delete(videoId);
+        sseController.broadcastRefresh(); //DB갱신
+    }
+
+
+
+    // 한번만 재생(재생 끝나면 백업하고 삭제함)
         @PostMapping("/musicplayer/close")
     public void deleteData(@RequestBody Map<String, String> requestBody) {
         String videoId = requestBody.get("video_id");
@@ -110,7 +123,7 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
     }
 
-    // 이거 수정 필요함
+    // 연속 재생(재생 끝나면 백업하고 vote랑 timestamp 초기화함)
     @PostMapping("/musicplayer/repeat")
     public void repeatData(@RequestBody Map<String, String> requestBody) {
         String videoId = requestBody.get("video_id");
