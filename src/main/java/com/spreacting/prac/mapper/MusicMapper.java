@@ -11,11 +11,12 @@ import com.spreacting.prac.model.Music;
 @Mapper
 public interface MusicMapper {
     
-    //SELECT * FROM member
+    //SELECT * FROM member <? 왜 member지
     List<Music> selectAll();
     List<Music> selectAll2();
     //SELECT * FROM member WHERE id = #{id}
     Music selectByVideoId(@Param("videoId") String videoId);
+    Integer countByVideoId(@Param("videoId") String videoId);
 
     void insert(@Param("music") Music music);
     void delete(@Param("videoId") String videoId);

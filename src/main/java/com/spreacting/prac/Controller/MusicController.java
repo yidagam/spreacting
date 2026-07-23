@@ -57,12 +57,17 @@ public class MusicController {
         sseController.broadcastRefresh(); //DB갱신
     }
 
+    /* 
     // db에 음원(video) 추가하는 함수
     @PostMapping("/musicform")
 	public void music(@RequestBody Music music) {
 		// System.out.println(">>> " + music);
 
         // DB에 동일한 music(video)가 있으면 db에 추가하는 대신 votes 증가시킴
+//이렇게 하는 대신 DB에서 videoId로 검색을 건 다음에 그게 있으면~ 으로 하는 게 낫겠다.
+// 오류처리... 라는 사파적 방법으로 접근해보려고 했는데 오류가 너무 크게 나서 안되겠음..
+//수정필!!!!!!!!
+
         try{
             musicMapper.insert(music);
     		// System.out.println("데이터 적재 성공");
@@ -94,6 +99,20 @@ public class MusicController {
         }
         sseController.broadcastRefresh(); //DB갱신
 	} */
+
+    // db에 음원(video) 추가하는 함수
+    @PostMapping("/musicform")
+	public void insertMusic(@RequestBody Music music) {
+		
+        int cnt = musicMapper.countByVideoId(music.getVideoId());
+
+        if(cnt>0){
+            musicMapper.updateByVideoId(music.getVideoId());
+        } else if (cnt <= 0){
+            musicMapper.insert(music);
+        }
+        sseController.broadcastRefresh(); //DB갱신
+	}
 
 /* ********** DB 조작 쿼리(백업, 삭제) ********** */
 

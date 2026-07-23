@@ -38,6 +38,12 @@
         WHERE video_id = #{videoId}
     </select>
 
+    <!-- ID로 조회해서 개수 반환 -->
+    <select id="countByVideoId">
+        SELECT count(*) 
+        FROM music 
+        WHERE video_id = #{videoId}
+    </select>
 
 <!-- ********** DB 업데이트 쿼리 ********** -->
 
